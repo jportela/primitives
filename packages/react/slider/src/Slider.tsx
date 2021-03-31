@@ -6,6 +6,7 @@ import { createContext } from '@radix-ui/react-context';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useSize } from '@radix-ui/react-use-size';
+import { useNode } from '@radix-ui/react-use-node';
 import { Primitive } from '@radix-ui/react-primitive';
 import { createCollection } from '@radix-ui/react-collection';
 
@@ -694,13 +695,14 @@ function useDirection({
   const [direction, setDirection] = React.useState<Direction>('ltr');
   const [computedStyle, setComputedStyle] = React.useState<CSSStyleDeclaration>();
   const rAFRef = React.useRef<number>(0);
+  const node = useNode(ref);
 
   React.useEffect(() => {
-    if (directionProp === undefined) {
-      const computedStyle = getComputedStyle(ref.current);
+    if (directionProp === undefined && node) {
+      const computedStyle = getComputedStyle(node);
       setComputedStyle(computedStyle);
     }
-  }, [directionProp, ref]);
+  }, [directionProp, node]);
 
   React.useEffect(() => {
     function getDirection() {

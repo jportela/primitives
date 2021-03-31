@@ -21,7 +21,8 @@
     "@radix-ui/react-compose-refs": "workspace:*",
     "@radix-ui/react-id": "workspace:*",
     "@radix-ui/react-polymorphic": "workspace:*",
-    "@radix-ui/react-primitive": "workspace:*"
+    "@radix-ui/react-primitive": "workspace:*",
+    "@radix-ui/react-use-node": "workspace:*"
   },
   "peerDependencies": {
     "react": "^16.8 || ^17.0"

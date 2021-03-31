@@ -3,7 +3,7 @@ import { createFocusScope, AUTOFOCUS_ON_CREATE, AUTOFOCUS_ON_DESTROY } from './c
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 
 type FocusScopeProps = {
-  children: (args: { ref: React.RefObject<any> }) => React.ReactElement;
+  children: (args: { ref: React.RefCallback<any> }) => React.ReactElement;
 
   /**
    * Whether focus should be trapped within the FocusScope
@@ -26,18 +26,19 @@ type FocusScopeProps = {
 
 function FocusScope(props: FocusScopeProps) {
   const { children, trapped = false } = props;
-  const containerRef = React.useRef<HTMLElement>(null);
-  const focusScopeRef = React.useRef<ReturnType<typeof createFocusScope>>();
+  const [container, setContainer] = React.useState<HTMLElement | null>(null);
+  const [focusScope, setFocusScope] = React.useState<ReturnType<typeof createFocusScope>>();
   const onMountAutoFocus = useCallbackRef(props.onMountAutoFocus);
   const onUnmountAutoFocus = useCallbackRef(props.onUnmountAutoFocus);
 
   // Create the focus scope on mount and destroy it on unmount
   React.useEffect(() => {
-    const container = containerRef.current;
     if (container) {
       container.addEventListener(AUTOFOCUS_ON_CREATE, onMountAutoFocus);
       container.addEventListener(AUTOFOCUS_ON_DESTROY, onUnmountAutoFocus);
-      focusScopeRef.current = createFocusScope(container);
+
+      const focusScope = createFocusScope(container);
+      setFocusScope(focusScope);
 
       return () => {
         container.removeEventListener(AUTOFOCUS_ON_CREATE, onMountAutoFocus);
@@ -45,25 +46,25 @@ function FocusScope(props: FocusScopeProps) {
         // We need to delay the focus a little to get around it for now.
         // See: https://github.com/facebook/react/issues/17894
         setTimeout(() => {
-          focusScopeRef.current?.destroy();
+          focusScope.destroy();
           // this needs to come after calling `destroy()` to make sure we can catch the event on time.
           container.removeEventListener(AUTOFOCUS_ON_DESTROY, onUnmountAutoFocus);
         }, 0);
       };
     }
-  }, [containerRef, onMountAutoFocus, onUnmountAutoFocus]);
+  }, [container, onMountAutoFocus, onUnmountAutoFocus]);
 
   // Sync `trapped` prop imperatively rather than passing as an argument to
   // `createFocusScope()` so that we do not risk executing side-effects run
   // on create and destroy (focus side-effects) if it ever changes live.
   React.useEffect(() => {
-    if (trapped) {
-      focusScopeRef.current?.trap();
-      return () => focusScopeRef.current?.untrap();
+    if (focusScope && trapped) {
+      focusScope.trap();
+      return () => focusScope.untrap();
     }
-  }, [trapped]);
+  }, [focusScope, trapped]);
 
-  return children({ ref: containerRef });
+  return children({ ref: React.useCallback((node) => setContainer(node), []) });
 }
 
 const Root = FocusScope;

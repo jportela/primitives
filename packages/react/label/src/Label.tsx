@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Primitive } from '@radix-ui/react-primitive';
 import { useId } from '@radix-ui/react-id';
+import { useNode } from '@radix-ui/react-use-node';
 
 import type * as Polymorphic from '@radix-ui/react-polymorphic';
 
@@ -80,17 +81,16 @@ Label.displayName = NAME;
 
 /* -----------------------------------------------------------------------------------------------*/
 
-const useLabelContext = <E extends HTMLElement>(ref?: React.RefObject<E>) => {
+const useLabelContext = <E extends HTMLElement>(ref: React.RefObject<E> = { current: null }) => {
   const context = React.useContext(LabelContext);
+  const node = useNode(ref);
 
   React.useEffect(() => {
     const label = context?.ref.current;
-    const element = ref?.current;
-
-    if (label && element) {
-      return addLabelClickEventListener(label, element);
+    if (label && node) {
+      return addLabelClickEventListener(label, node);
     }
-  }, [context, ref]);
+  }, [context, node]);
 
   return context?.id;
 };

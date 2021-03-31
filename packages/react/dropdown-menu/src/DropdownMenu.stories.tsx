@@ -196,6 +196,8 @@ export const Chromatic = () => {
   ];
   const files = ['README.md', 'index.js', 'page.css'];
   const [file, setFile] = React.useState(files[1]);
+  const controlledAnchorRef = React.useRef<HTMLDivElement>(null);
+  const uncontrolledAnchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <div style={{ padding: 200, paddingBottom: 800 }}>
@@ -258,6 +260,35 @@ export const Chromatic = () => {
         </DropdownMenuContent>
       </DropdownMenu>
 
+      <h2 style={{ marginTop: 200 }}>Open with reordered parts</h2>
+      <DropdownMenu defaultOpen>
+        <DropdownMenuContent
+          className={rootClass}
+          sideOffset={5}
+          avoidCollisions={false}
+          disableOutsideScroll={false}
+        >
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('undo')}>
+            Undo
+          </DropdownMenuItem>
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('redo')}>
+            Redo
+          </DropdownMenuItem>
+          <DropdownMenuSeparator className={separatorClass} />
+          <DropdownMenuItem className={itemClass} disabled onSelect={() => console.log('cut')}>
+            Cut
+          </DropdownMenuItem>
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('copy')}>
+            Copy
+          </DropdownMenuItem>
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('paste')}>
+            Paste
+          </DropdownMenuItem>
+          <DropdownMenuArrow />
+        </DropdownMenuContent>
+        <DropdownMenuTrigger className={triggerClass}>Open</DropdownMenuTrigger>
+      </DropdownMenu>
+
       <h1 style={{ marginTop: 200 }}>Controlled</h1>
       <h2>Closed</h2>
       <DropdownMenu open={false}>
@@ -296,6 +327,98 @@ export const Chromatic = () => {
           sideOffset={5}
           avoidCollisions={false}
           disableOutsideScroll={false}
+        >
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('undo')}>
+            Undo
+          </DropdownMenuItem>
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('redo')}>
+            Redo
+          </DropdownMenuItem>
+          <DropdownMenuSeparator className={separatorClass} />
+          <DropdownMenuItem className={itemClass} disabled onSelect={() => console.log('cut')}>
+            Cut
+          </DropdownMenuItem>
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('copy')}>
+            Copy
+          </DropdownMenuItem>
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('paste')}>
+            Paste
+          </DropdownMenuItem>
+          <DropdownMenuArrow />
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <h2 style={{ marginTop: 200 }}>Open with reordered parts</h2>
+      <DropdownMenu open>
+        <DropdownMenuContent
+          className={rootClass}
+          sideOffset={5}
+          avoidCollisions={false}
+          disableOutsideScroll={false}
+        >
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('undo')}>
+            Undo
+          </DropdownMenuItem>
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('redo')}>
+            Redo
+          </DropdownMenuItem>
+          <DropdownMenuSeparator className={separatorClass} />
+          <DropdownMenuItem className={itemClass} disabled onSelect={() => console.log('cut')}>
+            Cut
+          </DropdownMenuItem>
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('copy')}>
+            Copy
+          </DropdownMenuItem>
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('paste')}>
+            Paste
+          </DropdownMenuItem>
+          <DropdownMenuArrow />
+        </DropdownMenuContent>
+        <DropdownMenuTrigger className={triggerClass}>Open</DropdownMenuTrigger>
+      </DropdownMenu>
+
+      <h1 style={{ marginTop: 200 }}>Anchor ref</h1>
+      <h2>Controlled</h2>
+      <DropdownMenu open>
+        <div ref={controlledAnchorRef} style={{ padding: 20, background: 'gainsboro' }}>
+          <DropdownMenuTrigger className={triggerClass}>Open</DropdownMenuTrigger>
+        </div>
+        <DropdownMenuContent
+          className={rootClass}
+          avoidCollisions={false}
+          disableOutsideScroll={false}
+          anchorRef={controlledAnchorRef}
+        >
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('undo')}>
+            Undo
+          </DropdownMenuItem>
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('redo')}>
+            Redo
+          </DropdownMenuItem>
+          <DropdownMenuSeparator className={separatorClass} />
+          <DropdownMenuItem className={itemClass} disabled onSelect={() => console.log('cut')}>
+            Cut
+          </DropdownMenuItem>
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('copy')}>
+            Copy
+          </DropdownMenuItem>
+          <DropdownMenuItem className={itemClass} onSelect={() => console.log('paste')}>
+            Paste
+          </DropdownMenuItem>
+          <DropdownMenuArrow />
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <h2 style={{ marginTop: 150 }}>Uncontrolled</h2>
+      <DropdownMenu defaultOpen>
+        <div ref={uncontrolledAnchorRef} style={{ padding: 20, background: 'gainsboro' }}>
+          <DropdownMenuTrigger className={triggerClass}>Open</DropdownMenuTrigger>
+        </div>
+        <DropdownMenuContent
+          className={rootClass}
+          avoidCollisions={false}
+          disableOutsideScroll={false}
+          anchorRef={uncontrolledAnchorRef}
         >
           <DropdownMenuItem className={itemClass} onSelect={() => console.log('undo')}>
             Undo

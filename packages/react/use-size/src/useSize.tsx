@@ -1,16 +1,17 @@
 /// <reference types="resize-observer-browser" />
 
 import * as React from 'react';
+import { useNode } from '@radix-ui/react-use-node';
 
 function useSize(
   /** A reference to the element whose size to observe */
   refToObserve: React.RefObject<HTMLElement | SVGElement>
 ) {
   const [size, setSize] = React.useState<{ width: number; height: number } | undefined>(undefined);
+  const node = useNode(refToObserve);
 
   React.useEffect(() => {
-    if (refToObserve.current) {
-      const elementToObserve = refToObserve.current;
+    if (node) {
       const resizeObserver = new ResizeObserver((entries) => {
         if (!Array.isArray(entries)) {
           return;
@@ -35,7 +36,7 @@ function useSize(
         } else {
           // for browsers that don't support `borderBoxSize`
           // we calculate a rect ourselves to get the correct border box.
-          const rect = elementToObserve.getBoundingClientRect();
+          const rect = node.getBoundingClientRect();
           width = rect.width;
           height = rect.height;
         }
@@ -43,15 +44,15 @@ function useSize(
         setSize({ width, height });
       });
 
-      resizeObserver.observe(elementToObserve, { box: 'border-box' });
+      resizeObserver.observe(node, { box: 'border-box' });
 
       return () => {
         setSize(undefined);
-        resizeObserver.unobserve(elementToObserve);
+        resizeObserver.unobserve(node);
       };
     }
     return;
-  }, [refToObserve]);
+  }, [node]);
 
   return size;
 }

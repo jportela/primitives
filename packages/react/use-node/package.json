@@ -1,6 +1,6 @@
 {
-  "name": "@radix-ui/react-use-rect",
-  "version": "0.0.6",
+  "name": "@radix-ui/react-use-node",
+  "version": "0.0.0",
   "license": "MIT",
   "source": "src/index.ts",
   "main": "dist/index.js",
@@ -18,9 +18,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.13.10",
-    "@radix-ui/react-use-layout-effect": "workspace:*",
-    "@radix-ui/react-use-node": "workspace:*",
-    "@radix-ui/rect": "workspace:*"
+    "@radix-ui/react-use-layout-effect": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/resize-observer-browser": "^0.1.4"
   },
   "peerDependencies": {
     "react": "^16.8 || ^17.0"

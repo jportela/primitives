@@ -16,6 +16,10 @@
     "prepublish": "yarn clean",
     "version": "yarn version"
   },
+  "dependencies": {
+    "@babel/runtime": "^7.13.10",
+    "@radix-ui/react-use-node": "workspace:*"
+  },
   "devDependencies": {
     "@types/resize-observer-browser": "^0.1.4"
   },
@@ -29,8 +33,5 @@
   },
   "bugs": {
     "url": "https://github.com/radix-ui/primitives/issues"
-  },
-  "dependencies": {
-    "@babel/runtime": "^7.13.10"
   }
 }

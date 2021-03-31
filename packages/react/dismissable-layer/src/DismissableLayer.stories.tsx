@@ -160,11 +160,11 @@ export const WithFocusScope = () => {
           disableOutsidePointerEvents
           onDismiss={() => setOpen(false)}
         >
-          {({ ref: dismissableLayerContainerRef, ...props }) => (
+          {({ ...props }) => (
             <FocusScope trapped>
               {({ ref: focusScopeContainerRef }) => (
                 <div
-                  ref={composeRefs(focusScopeContainerRef, dismissableLayerContainerRef)}
+                  ref={focusScopeContainerRef}
                   {...props}
                   style={{
                     display: 'inline-flex',
@@ -529,7 +529,7 @@ function DummyDialog({ children, openLabel = 'Open', closeLabel = 'Close' }: Dum
                     {(focusScopeProps) => (
                       <div
                         {...dismissableLayerProps}
-                        ref={composeRefs(dismissableLayerProps.ref, focusScopeProps.ref)}
+                        ref={focusScopeProps.ref}
                         style={{
                           boxSizing: 'border-box',
                           display: 'flex',
@@ -636,7 +636,7 @@ function DummyPopover({
                     {(focusScopeProps) => (
                       <Popper
                         {...dismissableLayerProps}
-                        ref={composeRefs(dismissableLayerProps.ref, focusScopeProps.ref)}
+                        ref={focusScopeProps.ref}
                         anchorRef={openButtonRef}
                         style={{
                           filter: 'drop-shadow(0 2px 10px rgba(0, 0, 0, 0.12))',
